@@ -1,0 +1,64 @@
+<!-- Plugin Configuration File: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN, cannot be changed between the plugin versions. -->
+    <id>com.nyfaria.NyfsModderTools</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-name -->
+    <name>NyfsModderTools</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor url="https://www.nyfaria.com">Nyfaria</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-description -->
+    <description><![CDATA[
+        Plugin for making Minecraft Mods using Nyfs Tooling.
+    ]]></description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.compose</depends>
+    <depends>com.intellij.modules.lsp</depends>
+    <depends>com.intellij.java</depends>
+    <depends optional="true" config-file="github-integration.xml">org.jetbrains.plugins.github</depends>
+
+    <resource-bundle>messages.MyMessageBundle</resource-bundle>
+    <!-- Extensions defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow id="MyToolWindow" factoryClass="com.nyfaria.nyfsmoddingplugin.MyToolWindowFactory"
+                    icon="AllIcons.Toolwindows.ToolWindowPalette"/>
+
+        <moduleBuilder builderClass="com.nyfaria.nyfsmoddingplugin.wizard.MinecraftModuleBuilder"
+                       id="MINECRAFT_MOD_BUILDER"
+                       order="first"/>
+
+        <notificationGroup id="Minecraft Mod" displayType="BALLOON"/>
+
+        <applicationService serviceImplementation="com.nyfaria.nyfsmoddingplugin.settings.NyfsModdingSettings"/>
+
+        <applicationConfigurable parentId="tools"
+                                 instance="com.nyfaria.nyfsmoddingplugin.settings.NyfsModdingConfigurable"
+                                 id="com.nyfaria.nyfsmoddingplugin.settings"
+                                 displayName="Nyf's Modding Plugin"/>
+    </extensions>
+
+    <actions>
+        <action id="com.nyfaria.nyfsmoddingplugin.CopyATAW"
+                class="com.nyfaria.nyfsmoddingplugin.ataw.CopyATAWAction"
+                text="Copy AT/AW"
+                description="Copy Access Transformer or Access Widener entry for Minecraft">
+            <add-to-group group-id="Copy.Paste.Special" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt A"/>
+        </action>
+        <action id="com.nyfaria.nyfsmoddingplugin.CopyMixinTarget"
+                class="com.nyfaria.nyfsmoddingplugin.mixin.CopyMixinTargetAction"
+                text="Copy Mixin Target"
+                description="Copy Mixin target string for Minecraft classes, methods, and fields">
+            <add-to-group group-id="Copy.Paste.Special" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt M"/>
+        </action>
+    </actions>
+</idea-plugin>
