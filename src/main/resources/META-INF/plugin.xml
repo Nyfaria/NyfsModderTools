@@ -28,27 +28,27 @@
     <!-- Extensions defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="MyToolWindow" factoryClass="com.nyfaria.nyfsmoddingplugin.MyToolWindowFactory"
+        <toolWindow id="MyToolWindow" factoryClass="com.nyfaria.nyfsmoddertools.MyToolWindowFactory"
                     icon="AllIcons.Toolwindows.ToolWindowPalette"/>
 
-        <moduleBuilder builderClass="com.nyfaria.nyfsmoddingplugin.wizard.MinecraftModuleBuilder"
+        <moduleBuilder builderClass="com.nyfaria.nyfsmoddertools.wizard.MinecraftModuleBuilder"
                        id="MINECRAFT_MOD_BUILDER"
                        order="first"/>
 
         <notificationGroup id="Minecraft Mod" displayType="BALLOON"/>
 
-        <applicationService serviceImplementation="com.nyfaria.nyfsmoddingplugin.settings.NyfsModdingSettings"/>
+        <applicationService serviceImplementation="com.nyfaria.nyfsmoddertools.settings.NyfsModdingSettings"/>
 
         <applicationConfigurable parentId="tools"
-                                 instance="com.nyfaria.nyfsmoddingplugin.settings.NyfsModdingConfigurable"
-                                 id="com.nyfaria.nyfsmoddingplugin.settings"
+                                 instance="com.nyfaria.nyfsmoddertools.settings.NyfsModdingConfigurable"
+                                 id="com.nyfaria.nyfsmoddertools.settings"
                                  displayName="Nyf's Modding Plugin"/>
 
         <completion.contributor language="JAVA"
-                                implementationClass="com.nyfaria.nyfsmoddingplugin.mixin.completion.MixinCompletionContributor"/>
+                                implementationClass="com.nyfaria.nyfsmoddertools.mixin.completion.MixinCompletionContributor"/>
 
         <completion.confidence language="JAVA"
-                               implementationClass="com.nyfaria.nyfsmoddingplugin.mixin.completion.MixinCompletionConfidence"
+                               implementationClass="com.nyfaria.nyfsmoddertools.mixin.completion.MixinCompletionConfidence"
                                order="before javaSkipAutopopupInStrings"/>
 
         <localInspection language="JAVA"
@@ -57,7 +57,7 @@
                          shortName="MixinMethodInspection"
                          enabledByDefault="true"
                          level="ERROR"
-                         implementationClass="com.nyfaria.nyfsmoddingplugin.mixin.inspection.MixinMethodInspection"/>
+                         implementationClass="com.nyfaria.nyfsmoddertools.mixin.inspection.MixinMethodInspection"/>
 
         <localInspection language="JAVA"
                          groupName="Mixin"
@@ -65,7 +65,7 @@
                          shortName="MixinAtTargetInspection"
                          enabledByDefault="true"
                          level="ERROR"
-                         implementationClass="com.nyfaria.nyfsmoddingplugin.mixin.inspection.MixinAtTargetInspection"/>
+                         implementationClass="com.nyfaria.nyfsmoddertools.mixin.inspection.MixinAtTargetInspection"/>
 
         <localInspection language="JAVA"
                          groupName="Mixin"
@@ -73,7 +73,7 @@
                          shortName="MixinMethodSignatureInspection"
                          enabledByDefault="true"
                          level="ERROR"
-                         implementationClass="com.nyfaria.nyfsmoddingplugin.mixin.inspection.MixinMethodSignatureInspection"/>
+                         implementationClass="com.nyfaria.nyfsmoddertools.mixin.inspection.MixinMethodSignatureInspection"/>
 
         <localInspection language="JAVA"
                          groupName="Mixin"
@@ -81,49 +81,49 @@
                          shortName="MixinNotRegisteredInspection"
                          enabledByDefault="true"
                          level="WARNING"
-                         implementationClass="com.nyfaria.nyfsmoddingplugin.mixin.inspection.MixinNotRegisteredInspection"/>
+                         implementationClass="com.nyfaria.nyfsmoddertools.mixin.inspection.MixinNotRegisteredInspection"/>
 
-        <implicitUsageProvider implementation="com.nyfaria.nyfsmoddingplugin.mixin.MixinImplicitUsageProvider"/>
+        <implicitUsageProvider implementation="com.nyfaria.nyfsmoddertools.mixin.MixinImplicitUsageProvider"/>
 
         <codeInsight.lineMarkerProvider language="JAVA"
-                                        implementationClass="com.nyfaria.nyfsmoddingplugin.mixin.navigation.MixinLineMarkerProvider"/>
+                                        implementationClass="com.nyfaria.nyfsmoddertools.mixin.navigation.MixinLineMarkerProvider"/>
 
         <psi.referenceContributor language="JAVA"
-                                  implementation="com.nyfaria.nyfsmoddingplugin.mixin.navigation.MixinReferenceContributor"/>
+                                  implementation="com.nyfaria.nyfsmoddertools.mixin.navigation.MixinReferenceContributor"/>
     </extensions>
 
     <actions>
-        <action id="com.nyfaria.nyfsmoddingplugin.CopyATAW"
-                class="com.nyfaria.nyfsmoddingplugin.ataw.CopyATAWAction"
+        <action id="com.nyfaria.nyfsmoddertools.CopyATAW"
+                class="com.nyfaria.nyfsmoddertools.ataw.CopyATAWAction"
                 text="Copy AT/AW"
                 description="Copy Access Transformer or Access Widener entry for Minecraft">
             <add-to-group group-id="Copy.Paste.Special" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt A"/>
         </action>
-        <action id="com.nyfaria.nyfsmoddingplugin.CopyMixinTarget"
-                class="com.nyfaria.nyfsmoddingplugin.mixin.CopyMixinTargetAction"
+        <action id="com.nyfaria.nyfsmoddertools.CopyMixinTarget"
+                class="com.nyfaria.nyfsmoddertools.mixin.CopyMixinTargetAction"
                 text="Copy Mixin Target"
                 description="Copy Mixin target string for Minecraft classes, methods, and fields">
             <add-to-group group-id="Copy.Paste.Special" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt M"/>
         </action>
-        <action id="com.nyfaria.nyfsmoddingplugin.GenerateMixinHandler"
-                class="com.nyfaria.nyfsmoddingplugin.mixin.action.GenerateMixinHandlerAction"
+        <action id="com.nyfaria.nyfsmoddertools.GenerateMixinHandler"
+                class="com.nyfaria.nyfsmoddertools.mixin.action.GenerateMixinHandlerAction"
                 text="Generate Mixin Handler"
                 description="Generate a Mixin handler method for this method">
             <add-to-group group-id="GenerateGroup" anchor="last"/>
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt G"/>
         </action>
-        <action id="com.nyfaria.nyfsmoddingplugin.GenerateAccessorInvoker"
-                class="com.nyfaria.nyfsmoddingplugin.mixin.action.GenerateAccessorInvokerAction"
+        <action id="com.nyfaria.nyfsmoddertools.GenerateAccessorInvoker"
+                class="com.nyfaria.nyfsmoddertools.mixin.action.GenerateAccessorInvokerAction"
                 text="Generate Accessor/Invoker"
                 description="Generate an @Accessor or @Invoker interface method">
             <add-to-group group-id="GenerateGroup" anchor="last"/>
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
-        <action id="com.nyfaria.nyfsmoddingplugin.GenerateInvokeMixin"
-                class="com.nyfaria.nyfsmoddingplugin.mixin.action.GenerateInvokeMixinAction"
+        <action id="com.nyfaria.nyfsmoddertools.GenerateInvokeMixin"
+                class="com.nyfaria.nyfsmoddertools.mixin.action.GenerateInvokeMixinAction"
                 text="Generate INVOKE Mixin"
                 description="Generate a mixin handler targeting this method call">
             <add-to-group group-id="GenerateGroup" anchor="last"/>
