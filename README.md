@@ -1,117 +1,116 @@
-# IntelliJ Platform Plugin Template
+# NyfsModderTools
 
-[![Twitter Follow](https://img.shields.io/badge/follow-%40JBPlatform-1DA1F2?logo=twitter)](https://twitter.com/JBPlatform)
-[![Developers Forum](https://img.shields.io/badge/JetBrains%20Platform-Join-blue)][jb:forum]
+An IntelliJ IDEA plugin for Minecraft mod development, providing powerful tools for working with Mixins, Access Transformers/Wideners, and more.
 
-## Plugin template structure
+## Features
 
-A generated project contains the following content structure:
+### Copy Actions
 
-```
-.
-├── .run/                   Predefined Run/Debug Configurations
-├── build/                  Output build directory
-├── gradle
-│   ├── wrapper/            Gradle Wrapper
-├── src                     Plugin sources
-│   ├── main
-│   │   ├── kotlin/         Kotlin production sources
-│   │   └── resources/      Resources - plugin.xml, icons, messages
-├── .gitignore              Git ignoring rules
-├── build.gradle.kts        Gradle build configuration
-├── gradle.properties       Gradle configuration properties
-├── gradlew                 *nix Gradle Wrapper script
-├── gradlew.bat             Windows Gradle Wrapper script
-├── README.md               README
-└── settings.gradle.kts     Gradle project settings
-```
+#### Copy AT/AW (Ctrl+Alt+A)
+Right-click on any class, method, or field in Minecraft code to copy the Access Transformer (Forge/NeoForge) or Access Widener (Fabric) entry to your clipboard.
 
-In addition to the configuration files, the most crucial part is the `src` directory, which contains our implementation
-and the manifest for our plugin – [plugin.xml][file:plugin.xml].
+#### Copy Mixin Target (Ctrl+Alt+M)
+Copy properly formatted Mixin target strings for use in `@Inject`, `@Redirect`, `@Shadow`, `@At(value="INVOKE")`, and other Mixin annotations.
 
-> [!NOTE]
-> To use Java in your plugin, create the `/src/main/java` directory.
+### Mixin Autocomplete
 
-## Plugin configuration file
+Smart autocomplete that understands Mixin semantics:
 
-The plugin configuration file is a [plugin.xml][file:plugin.xml] file located in the `src/main/resources/META-INF`
-directory.
-It provides general information about the plugin, its dependencies, extensions, and listeners.
+- **`method=""`** - Autocomplete method names and descriptors for `@Inject`, `@Redirect`, `@ModifyArg`, `@WrapMethod`, etc.
+- **`target=""`** - Autocomplete for `@At` targets (INVOKE, FIELD, NEW) within the context of the containing method
 
-You can read more about this file in the [Plugin Configuration File][docs:plugin.xml] section of our documentation.
+Supports both standard Mixin annotations and Mixin Extras:
+- Standard: `@Inject`, `@Redirect`, `@ModifyArg`, `@ModifyArgs`, `@ModifyConstant`, `@ModifyVariable`, `@Overwrite`
+- Mixin Extras: `@WrapMethod`, `@WrapOperation`, `@WrapWithCondition`, `@ModifyExpressionValue`, `@ModifyReturnValue`, `@ModifyReceiver`
 
-If you're still not quite sure what this is all about, read our
-introduction: [What is the IntelliJ Platform?][docs:intro]
+### Mixin Inspections (Error Checking)
 
-$H$H Predefined Run/Debug configurations
+Real-time validation with red/yellow squiggles for common Mixin errors:
 
-Within the default project structure, there is a `.run` directory provided containing predefined *Run/Debug
-configurations* that expose corresponding Gradle tasks:
+- **Invalid method target** - Method specified in `method=""` doesn't exist
+- **Invalid @At target** - Target specified in `target=""` doesn't exist within the method
+- **Invalid method signature** - Handler method has wrong parameters, missing `CallbackInfo`, wrong `Operation` type, etc.
+- **Mixin not registered** - Warning when a Mixin class isn't listed in any `mixins.json` file
 
-| Configuration name | Description                                                                                                                                                                         |
-|--------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Run Plugin         | Runs [`:runIde`][gh:intellij-platform-gradle-plugin-runIde] IntelliJ Platform Gradle Plugin task. Use the *Debug* icon for plugin debugging.                                        |
-| Run Tests          | Runs [`:test`][gradle:lifecycle-tasks] Gradle task.                                                                                                                                 |
-| Run Verifications  | Runs [`:verifyPlugin`][gh:intellij-platform-gradle-plugin-verifyPlugin] IntelliJ Platform Gradle Plugin task to check the plugin compatibility against the specified IntelliJ IDEs. |
+### Quick Fixes (Alt+Enter)
 
-> [!NOTE]
-> You can find the logs from the running task in the `idea.log` tab.
+- Fix method signatures (adds missing parameters, `CallbackInfo`, `CallbackInfoReturnable`, `Operation<T>`, etc.)
+- Add Mixin class to `mixins.json`
 
-## Publishing the plugin
+### Mixin Generator Actions
 
-> [!TIP]
-> Make sure to follow all guidelines listed in [Publishing a Plugin][docs:publishing] to follow all recommended and
-> required steps.
+#### Generate Mixin Handler (Ctrl+Alt+G)
+Right-click on any method in Minecraft code and select "Generate Mixin Handler" to automatically:
+- Create a mixin handler method with the correct signature
+- Choose from `@Inject`, `@WrapMethod`, `@Redirect`, `@ModifyReturnValue`, or `@Overwrite`
+- Find an existing Mixin class targeting that class, or create a new one (`ClassMixin`)
+- Add all necessary imports
 
-Releasing a plugin to [JetBrains Marketplace](https://plugins.jetbrains.com) is a straightforward operation that uses
-the `publishPlugin` Gradle task provided by
-the [intellij-platform-gradle-plugin][gh:intellij-platform-gradle-plugin-docs].
+#### Generate INVOKE Mixin
+Right-click on a method call inside Minecraft code to generate a mixin targeting that specific invocation with `@At(value="INVOKE")`.
 
-You can also upload the plugin to the [JetBrains Plugin Repository](https://plugins.jetbrains.com/plugin/upload)
-manually via UI.
+#### Generate Accessor/Invoker
+Right-click on a private field or method to generate an `@Accessor` or `@Invoker` interface method. Creates a new accessor interface (`ClassAccessor`) if none exists.
 
-## Useful links
+### Navigation
 
-- [IntelliJ Platform SDK Plugin SDK][docs]
-- [IntelliJ Platform Gradle Plugin Documentation][gh:intellij-platform-gradle-plugin-docs]
-- [IntelliJ Platform Explorer][jb:ipe]
-- [JetBrains Marketplace Quality Guidelines][jb:quality-guidelines]
-- [IntelliJ Platform UI Guidelines][jb:ui-guidelines]
-- [JetBrains Marketplace Paid Plugins][jb:paid-plugins]
-- [IntelliJ SDK Code Samples][gh:code-samples]
+- **Gutter icons** on mixin handler methods to navigate to the target method
+- **Ctrl+Click** on `method=""` and `target=""` strings to navigate to the referenced method/field
+- **Implicit usage detection** - Mixin classes in `mixins.json` and annotated methods/fields are shown as "used" (not grayed out)
 
-[docs]: https://plugins.jetbrains.com/docs/intellij
+### Settings
 
-[docs:intro]: https://plugins.jetbrains.com/docs/intellij/intellij-platform.html?from=IJPluginTemplate
+All features can be individually enabled/disabled in **Settings → Tools → Nyf's Modding Plugin**:
 
-[docs:plugin.xml]: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html?from=IJPluginTemplate
+- Project Template
+- Copy AT/AW Action
+- Copy Mixin Target Action
+- Mixin Autocomplete
+- Mixin Inspections
+- Generate Mixin Actions
+- Generate Accessor/Invoker Actions
 
-[docs:publishing]: https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate
+## Requirements
 
-[file:plugin.xml]: ./src/main/resources/META-INF/plugin.xml
+- IntelliJ IDEA 2025.2.4 or newer
+- Java plugin enabled
 
-[gh:code-samples]: https://github.com/JetBrains/intellij-sdk-code-samples
+## Installation
 
-[gh:intellij-platform-gradle-plugin]: https://github.com/JetBrains/intellij-platform-gradle-plugin
+### From JetBrains Marketplace
+1. Go to **Settings → Plugins → Marketplace**
+2. Search for "NyfsModderTools"
+3. Click Install
 
-[gh:intellij-platform-gradle-plugin-docs]: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html
+### Manual Installation
+1. Download the latest release from the [Releases page](https://github.com/Nyfaria/NyfsModdingPlugin/releases)
+2. Go to **Settings → Plugins → ⚙️ → Install Plugin from Disk...**
+3. Select the downloaded `.zip` file
 
-[gh:intellij-platform-gradle-plugin-runIde]: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-tasks.html#runIde
+## Supported Annotations
 
-[gh:intellij-platform-gradle-plugin-verifyPlugin]: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-tasks.html#verifyPlugin
+### Standard Mixin
+`@Mixin`, `@Inject`, `@Redirect`, `@ModifyArg`, `@ModifyArgs`, `@ModifyConstant`, `@ModifyVariable`, `@Overwrite`, `@Shadow`, `@Accessor`, `@Invoker`, `@Final`, `@Mutable`, `@Unique`
 
-[gradle:lifecycle-tasks]: https://docs.gradle.org/current/userguide/java_plugin.html#lifecycle_tasks
+### Mixin Extras
+`@WrapMethod`, `@WrapOperation`, `@WrapWithCondition`, `@ModifyExpressionValue`, `@ModifyReturnValue`, `@ModifyReceiver`
 
-[jb:github]: https://github.com/JetBrains/.github/blob/main/profile/README.md
+## Keyboard Shortcuts
 
-[jb:forum]: https://platform.jetbrains.com/
+| Action | Shortcut |
+|--------|----------|
+| Copy AT/AW | Ctrl+Alt+A |
+| Copy Mixin Target | Ctrl+Alt+M |
+| Generate Mixin Handler | Ctrl+Alt+G |
 
-[jb:quality-guidelines]: https://plugins.jetbrains.com/docs/marketplace/quality-guidelines.html
+## License
 
-[jb:paid-plugins]: https://plugins.jetbrains.com/docs/marketplace/paid-plugins-marketplace.html
+This project is licensed under the MIT License.
 
-[jb:quality-guidelines]: https://plugins.jetbrains.com/docs/marketplace/quality-guidelines.html
+## Contributing
 
-[jb:ipe]: https://jb.gg/ipe
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-[jb:ui-guidelines]: https://jetbrains.github.io/ui
+## Author
+
+[Nyfaria](https://www.nyfaria.com)
