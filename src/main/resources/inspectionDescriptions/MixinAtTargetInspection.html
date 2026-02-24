@@ -1,0 +1,18 @@
+<html>
+<body>
+Reports invalid @At target values in Mixin injection annotations.
+<p>
+This inspection checks that the target= attribute in @At annotations refers to a valid
+method call, field access, or constructor call within the method being injected into.
+</p>
+<p>
+The inspection validates targets based on the @At type:
+<ul>
+<li>INVOKE - validates method call targets</li>
+<li>FIELD - validates field access targets</li>
+<li>NEW - validates constructor call targets</li>
+</ul>
+</p>
+</body>
+</html>
+

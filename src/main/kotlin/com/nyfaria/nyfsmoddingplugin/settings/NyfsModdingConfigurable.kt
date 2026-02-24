@@ -10,6 +10,8 @@ class NyfsModdingConfigurable : Configurable {
     private var enableProjectTemplateCheckbox: JBCheckBox? = null
     private var enableCopyATAWCheckbox: JBCheckBox? = null
     private var enableCopyMixinTargetCheckbox: JBCheckBox? = null
+    private var enableMixinAutocompleteCheckbox: JBCheckBox? = null
+    private var enableMixinInspectionsCheckbox: JBCheckBox? = null
 
     override fun getDisplayName(): String = "Nyf's Modding Plugin"
 
@@ -36,6 +38,18 @@ class NyfsModdingConfigurable : Configurable {
                         .component
                     enableCopyMixinTargetCheckbox?.isSelected = settings.enableCopyMixinTarget
                 }
+                row {
+                    enableMixinAutocompleteCheckbox = checkBox("Enable Mixin autocomplete")
+                        .comment("Provides autocomplete for method=\"...\" and @At(target=\"...\") in Mixin annotations")
+                        .component
+                    enableMixinAutocompleteCheckbox?.isSelected = settings.enableMixinAutocomplete
+                }
+                row {
+                    enableMixinInspectionsCheckbox = checkBox("Enable Mixin inspections")
+                        .comment("Shows errors for invalid method= and target= values in Mixin annotations")
+                        .component
+                    enableMixinInspectionsCheckbox?.isSelected = settings.enableMixinInspections
+                }
             }
             group("Note") {
                 row {
@@ -49,7 +63,9 @@ class NyfsModdingConfigurable : Configurable {
         val settings = NyfsModdingSettings.getInstance()
         return enableProjectTemplateCheckbox?.isSelected != settings.enableProjectTemplate ||
                enableCopyATAWCheckbox?.isSelected != settings.enableCopyATAW ||
-               enableCopyMixinTargetCheckbox?.isSelected != settings.enableCopyMixinTarget
+               enableCopyMixinTargetCheckbox?.isSelected != settings.enableCopyMixinTarget ||
+               enableMixinAutocompleteCheckbox?.isSelected != settings.enableMixinAutocomplete ||
+               enableMixinInspectionsCheckbox?.isSelected != settings.enableMixinInspections
     }
 
     override fun apply() {
@@ -57,6 +73,8 @@ class NyfsModdingConfigurable : Configurable {
         settings.enableProjectTemplate = enableProjectTemplateCheckbox?.isSelected ?: true
         settings.enableCopyATAW = enableCopyATAWCheckbox?.isSelected ?: true
         settings.enableCopyMixinTarget = enableCopyMixinTargetCheckbox?.isSelected ?: true
+        settings.enableMixinAutocomplete = enableMixinAutocompleteCheckbox?.isSelected ?: true
+        settings.enableMixinInspections = enableMixinInspectionsCheckbox?.isSelected ?: true
     }
 
     override fun reset() {
@@ -64,12 +82,16 @@ class NyfsModdingConfigurable : Configurable {
         enableProjectTemplateCheckbox?.isSelected = settings.enableProjectTemplate
         enableCopyATAWCheckbox?.isSelected = settings.enableCopyATAW
         enableCopyMixinTargetCheckbox?.isSelected = settings.enableCopyMixinTarget
+        enableMixinAutocompleteCheckbox?.isSelected = settings.enableMixinAutocomplete
+        enableMixinInspectionsCheckbox?.isSelected = settings.enableMixinInspections
     }
 
     override fun disposeUIResources() {
         enableProjectTemplateCheckbox = null
         enableCopyATAWCheckbox = null
         enableCopyMixinTargetCheckbox = null
+        enableMixinAutocompleteCheckbox = null
+        enableMixinInspectionsCheckbox = null
     }
 }
 

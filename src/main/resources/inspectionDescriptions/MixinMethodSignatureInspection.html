@@ -1,0 +1,70 @@
+<html>
+<body>
+Reports invalid Mixin handler method signatures.
+<p>
+This inspection checks that Mixin handler methods (methods annotated with @Inject, @Redirect, etc.)
+have the correct signature based on their annotation type and target method.
+</p>
+<h3>Standard Mixin Annotations</h3>
+<p>
+<b>@Inject</b> methods should:
+<ul>
+<li>Have parameters matching the target method parameters</li>
+<li>Have a CallbackInfo parameter (for void targets) or CallbackInfoReturnable (for non-void targets)</li>
+</ul>
+</p>
+<p>
+<b>@Redirect</b> methods should:
+<ul>
+<li>Have a return type matching the redirected method</li>
+<li>Have parameters matching the redirected method (plus instance if non-static)</li>
+</ul>
+</p>
+<p>
+<b>@ModifyArg</b>, <b>@ModifyVariable</b>, <b>@ModifyConstant</b> methods should:
+<ul>
+<li>Have at least one parameter (the value being modified)</li>
+<li>Have a return type matching the parameter type</li>
+</ul>
+</p>
+<p>
+<b>@ModifyArgs</b> methods should:
+<ul>
+<li>Have an Args parameter</li>
+<li>Return void</li>
+</ul>
+</p>
+<h3>Mixin Extras Annotations</h3>
+<p>
+<b>@WrapMethod</b> methods should:
+<ul>
+<li>Have the same parameters as the target method (plus instance if non-static)</li>
+<li>Have an Operation parameter as the last parameter</li>
+<li>Have the same return type as the target method</li>
+</ul>
+</p>
+<p>
+<b>@WrapOperation</b> methods should:
+<ul>
+<li>Have an Operation parameter</li>
+</ul>
+</p>
+<p>
+<b>@WrapWithCondition</b> methods should:
+<ul>
+<li>Return boolean</li>
+</ul>
+</p>
+<p>
+<b>@ModifyExpressionValue</b>, <b>@ModifyReturnValue</b>, <b>@ModifyReceiver</b> methods should:
+<ul>
+<li>Have the original value as the first parameter</li>
+<li>Have a return type matching the parameter type</li>
+</ul>
+</p>
+<p>
+Quick fixes are available to correct invalid method signatures.
+</p>
+</body>
+</html>
+

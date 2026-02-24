@@ -1,0 +1,19 @@
+<html>
+<body>
+Reports Mixin classes that are not registered in any mixins.json configuration file.
+<p>
+Mixin classes must be registered in a <code>*.mixins.json</code> file to be loaded by the Mixin framework.
+This inspection checks if the class annotated with <code>@Mixin</code> is listed in any of the following
+arrays in any mixins.json file in the project:
+<ul>
+<li><code>mixins</code> - common mixins</li>
+<li><code>client</code> - client-side mixins</li>
+<li><code>server</code> - server-side mixins</li>
+</ul>
+</p>
+<p>
+If a Mixin class is not registered, it will not be applied at runtime.
+</p>
+</body>
+</html>
+

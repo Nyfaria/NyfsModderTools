@@ -43,6 +43,47 @@
                                  instance="com.nyfaria.nyfsmoddingplugin.settings.NyfsModdingConfigurable"
                                  id="com.nyfaria.nyfsmoddingplugin.settings"
                                  displayName="Nyf's Modding Plugin"/>
+
+        <completion.contributor language="JAVA"
+                                implementationClass="com.nyfaria.nyfsmoddingplugin.mixin.completion.MixinCompletionContributor"/>
+
+        <completion.confidence language="JAVA"
+                               implementationClass="com.nyfaria.nyfsmoddingplugin.mixin.completion.MixinCompletionConfidence"
+                               order="before javaSkipAutopopupInStrings"/>
+
+        <localInspection language="JAVA"
+                         groupName="Mixin"
+                         displayName="Invalid Mixin method target"
+                         shortName="MixinMethodInspection"
+                         enabledByDefault="true"
+                         level="ERROR"
+                         implementationClass="com.nyfaria.nyfsmoddingplugin.mixin.inspection.MixinMethodInspection"/>
+
+        <localInspection language="JAVA"
+                         groupName="Mixin"
+                         displayName="Invalid Mixin @At target"
+                         shortName="MixinAtTargetInspection"
+                         enabledByDefault="true"
+                         level="ERROR"
+                         implementationClass="com.nyfaria.nyfsmoddingplugin.mixin.inspection.MixinAtTargetInspection"/>
+
+        <localInspection language="JAVA"
+                         groupName="Mixin"
+                         displayName="Invalid Mixin method signature"
+                         shortName="MixinMethodSignatureInspection"
+                         enabledByDefault="true"
+                         level="ERROR"
+                         implementationClass="com.nyfaria.nyfsmoddingplugin.mixin.inspection.MixinMethodSignatureInspection"/>
+
+        <localInspection language="JAVA"
+                         groupName="Mixin"
+                         displayName="Mixin class not registered in mixins.json"
+                         shortName="MixinNotRegisteredInspection"
+                         enabledByDefault="true"
+                         level="WARNING"
+                         implementationClass="com.nyfaria.nyfsmoddingplugin.mixin.inspection.MixinNotRegisteredInspection"/>
+
+        <implicitUsageProvider implementation="com.nyfaria.nyfsmoddingplugin.mixin.MixinImplicitUsageProvider"/>
     </extensions>
 
     <actions>
