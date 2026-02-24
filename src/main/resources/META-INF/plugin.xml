@@ -84,6 +84,12 @@
                          implementationClass="com.nyfaria.nyfsmoddingplugin.mixin.inspection.MixinNotRegisteredInspection"/>
 
         <implicitUsageProvider implementation="com.nyfaria.nyfsmoddingplugin.mixin.MixinImplicitUsageProvider"/>
+
+        <codeInsight.lineMarkerProvider language="JAVA"
+                                        implementationClass="com.nyfaria.nyfsmoddingplugin.mixin.navigation.MixinLineMarkerProvider"/>
+
+        <psi.referenceContributor language="JAVA"
+                                  implementation="com.nyfaria.nyfsmoddingplugin.mixin.navigation.MixinReferenceContributor"/>
     </extensions>
 
     <actions>
@@ -100,6 +106,28 @@
                 description="Copy Mixin target string for Minecraft classes, methods, and fields">
             <add-to-group group-id="Copy.Paste.Special" anchor="last"/>
             <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt M"/>
+        </action>
+        <action id="com.nyfaria.nyfsmoddingplugin.GenerateMixinHandler"
+                class="com.nyfaria.nyfsmoddingplugin.mixin.action.GenerateMixinHandlerAction"
+                text="Generate Mixin Handler"
+                description="Generate a Mixin handler method for this method">
+            <add-to-group group-id="GenerateGroup" anchor="last"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt G"/>
+        </action>
+        <action id="com.nyfaria.nyfsmoddingplugin.GenerateAccessorInvoker"
+                class="com.nyfaria.nyfsmoddingplugin.mixin.action.GenerateAccessorInvokerAction"
+                text="Generate Accessor/Invoker"
+                description="Generate an @Accessor or @Invoker interface method">
+            <add-to-group group-id="GenerateGroup" anchor="last"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
+        <action id="com.nyfaria.nyfsmoddingplugin.GenerateInvokeMixin"
+                class="com.nyfaria.nyfsmoddingplugin.mixin.action.GenerateInvokeMixinAction"
+                text="Generate INVOKE Mixin"
+                description="Generate a mixin handler targeting this method call">
+            <add-to-group group-id="GenerateGroup" anchor="last"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
     </actions>
 </idea-plugin>

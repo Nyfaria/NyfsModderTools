@@ -19,6 +19,8 @@ class NyfsModdingSettings : PersistentStateComponent<NyfsModdingSettings> {
     var enableCopyMixinTarget: Boolean = true
     var enableMixinAutocomplete: Boolean = true
     var enableMixinInspections: Boolean = true
+    var enableGenerateMixin: Boolean = true
+    var enableGenerateAccessorInvoker: Boolean = true
 
     override fun getState(): NyfsModdingSettings = this
 

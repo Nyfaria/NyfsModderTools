@@ -98,7 +98,9 @@ class MixinNotRegisteredInspection : AbstractBaseJavaLocalInspectionTool() {
 
         private fun showFileSelectionPopup(project: Project, files: List<VirtualFile>, className: String) {
             val step = object : BaseListPopupStep<VirtualFile>("Select mixins.json file", files) {
-                override fun getTextFor(value: VirtualFile): String = value.name + " (" + value.parent?.path + ")"
+                override fun getTextFor(value: VirtualFile): String {
+                    return extractModuleName(value.path) ?: value.name
+                }
 
                 override fun onChosen(selectedValue: VirtualFile, finalChoice: Boolean): PopupStep<*>? {
                     if (finalChoice) {
@@ -114,6 +116,17 @@ class MixinNotRegisteredInspection : AbstractBaseJavaLocalInspectionTool() {
             } else {
                 JBPopupFactory.getInstance().createListPopup(step).showInFocusCenter()
             }
+        }
+
+        private fun extractModuleName(path: String): String? {
+            val normalizedPath = path.replace("\\", "/")
+            val modulePatterns = listOf("common", "fabric", "neoforge", "forge", "quilt")
+            for (module in modulePatterns) {
+                if (normalizedPath.contains("/$module/")) {
+                    return module
+                }
+            }
+            return null
         }
 
         private fun showArraySelectionPopup(project: Project, file: VirtualFile, className: String) {

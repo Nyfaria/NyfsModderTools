@@ -12,6 +12,8 @@ class NyfsModdingConfigurable : Configurable {
     private var enableCopyMixinTargetCheckbox: JBCheckBox? = null
     private var enableMixinAutocompleteCheckbox: JBCheckBox? = null
     private var enableMixinInspectionsCheckbox: JBCheckBox? = null
+    private var enableGenerateMixinCheckbox: JBCheckBox? = null
+    private var enableGenerateAccessorInvokerCheckbox: JBCheckBox? = null
 
     override fun getDisplayName(): String = "Nyf's Modding Plugin"
 
@@ -50,6 +52,18 @@ class NyfsModdingConfigurable : Configurable {
                         .component
                     enableMixinInspectionsCheckbox?.isSelected = settings.enableMixinInspections
                 }
+                row {
+                    enableGenerateMixinCheckbox = checkBox("Enable Generate Mixin Handler action")
+                        .comment("Adds 'Generate Mixin Handler' and 'Generate INVOKE Mixin' to context menu")
+                        .component
+                    enableGenerateMixinCheckbox?.isSelected = settings.enableGenerateMixin
+                }
+                row {
+                    enableGenerateAccessorInvokerCheckbox = checkBox("Enable Generate Accessor/Invoker action")
+                        .comment("Adds 'Generate Accessor/Invoker' to context menu for fields and methods")
+                        .component
+                    enableGenerateAccessorInvokerCheckbox?.isSelected = settings.enableGenerateAccessorInvoker
+                }
             }
             group("Note") {
                 row {
@@ -65,7 +79,9 @@ class NyfsModdingConfigurable : Configurable {
                enableCopyATAWCheckbox?.isSelected != settings.enableCopyATAW ||
                enableCopyMixinTargetCheckbox?.isSelected != settings.enableCopyMixinTarget ||
                enableMixinAutocompleteCheckbox?.isSelected != settings.enableMixinAutocomplete ||
-               enableMixinInspectionsCheckbox?.isSelected != settings.enableMixinInspections
+               enableMixinInspectionsCheckbox?.isSelected != settings.enableMixinInspections ||
+               enableGenerateMixinCheckbox?.isSelected != settings.enableGenerateMixin ||
+               enableGenerateAccessorInvokerCheckbox?.isSelected != settings.enableGenerateAccessorInvoker
     }
 
     override fun apply() {
@@ -75,6 +91,8 @@ class NyfsModdingConfigurable : Configurable {
         settings.enableCopyMixinTarget = enableCopyMixinTargetCheckbox?.isSelected ?: true
         settings.enableMixinAutocomplete = enableMixinAutocompleteCheckbox?.isSelected ?: true
         settings.enableMixinInspections = enableMixinInspectionsCheckbox?.isSelected ?: true
+        settings.enableGenerateMixin = enableGenerateMixinCheckbox?.isSelected ?: true
+        settings.enableGenerateAccessorInvoker = enableGenerateAccessorInvokerCheckbox?.isSelected ?: true
     }
 
     override fun reset() {
@@ -84,6 +102,8 @@ class NyfsModdingConfigurable : Configurable {
         enableCopyMixinTargetCheckbox?.isSelected = settings.enableCopyMixinTarget
         enableMixinAutocompleteCheckbox?.isSelected = settings.enableMixinAutocomplete
         enableMixinInspectionsCheckbox?.isSelected = settings.enableMixinInspections
+        enableGenerateMixinCheckbox?.isSelected = settings.enableGenerateMixin
+        enableGenerateAccessorInvokerCheckbox?.isSelected = settings.enableGenerateAccessorInvoker
     }
 
     override fun disposeUIResources() {
@@ -92,6 +112,8 @@ class NyfsModdingConfigurable : Configurable {
         enableCopyMixinTargetCheckbox = null
         enableMixinAutocompleteCheckbox = null
         enableMixinInspectionsCheckbox = null
+        enableGenerateMixinCheckbox = null
+        enableGenerateAccessorInvokerCheckbox = null
     }
 }
 
